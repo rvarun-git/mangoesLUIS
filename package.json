@@ -1,0 +1,24 @@
+{
+  "name": "mangoesluis",
+  "version": "1.0.0",
+  "description": "Mangoes DB access with LUIS NLS queries",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "keywords": [
+    "mangoes",
+    "LUIS",
+    "DB"
+  ],
+  "author": "RVA",
+  "license": "ISC",
+  "dependencies": {
+    "azure": "^1.1.1-preview",
+    "azure-storage": "^1.1.0",
+    "botbuilder": "^3.1.1",
+    "nconf": "^0.8.4",
+    "restify": "^4.1.1",
+    "sprintf": "^0.1.5"
+  }
+}
