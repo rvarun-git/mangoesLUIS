@@ -7,7 +7,7 @@ It queries the table against these entities and returns information.
 
 -----------------------------------------------------------------------------*/
 
-var restify = require('restify');
+var restify = require('restify'); 
 var builder = require('botbuilder');
 
 // Setup Restify Server
