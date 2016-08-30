@@ -16,7 +16,7 @@ var builder = require('botbuilder');
 //   console.log('%s listening to %s', server.name, server.url); 
 // });
 
-// Setup Restify Server
+// Setup Restify Server - listening on port 80
 var server = restify.createServer();
 server.get('/', function(req, res, next) {
     res.send('Hi! Click on http://mangoes.azurewebsites.net for Mangoes List.');
