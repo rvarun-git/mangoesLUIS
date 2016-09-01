@@ -20,7 +20,7 @@ String.prototype.getSentence = function(){
 // Bot Setup
 //=========================================================
 
-// Setup Restify Server 
+// Setup Restify Server
 var server = restify.createServer();
 server.get('/', function(req, res, next) {
     res.send('Hi! Click on http://mangoes.azurewebsites.net for Mangoes List.');
