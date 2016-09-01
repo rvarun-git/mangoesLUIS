@@ -1,10 +1,11 @@
 {
   "name": "mangoesluis",
   "version": "1.0.0",
+  "private": true,
   "description": "Mangoes DB access with LUIS NLS queries",
   "main": "app.js",
   "scripts": {
-    "test": "node app.js"
+    "start": "node app.js"
   },
   "keywords": [
     "mangoes",
