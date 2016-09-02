@@ -13,8 +13,15 @@ var builder = require('botbuilder');
 
 // Extract string (and get rid of cruft at beginning and end)
 String.prototype.getSentence = function(){
-    return this.replace(/(\"([^\w]*)\")/g, "");
+    // Cut stuff from ends
+    var s = this.replace(/(\"([^\w]*)\")/g, "");
+    // Take out "_" that ^\w left
+    s = s.replace(/_/g, "");
+    // Take out extra " (and leave braces to make it easy to see)
+    s = s.replace(/\"/g, "");
+    return s;
 };
+
 
 //=========================================================
 // Bot Setup
