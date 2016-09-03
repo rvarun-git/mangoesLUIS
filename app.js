@@ -1,26 +1,14 @@
 /*-----------------------------------------------------------------------------
 Mangoes:
 
-This BOT access the Mangoes database to get data.
+This BOT searches the Mangoes Azure Table to get data.
 It uses LUIS models to convert NLS queries to get entities: mangoregion, mangotype mangocharacteristic.
-It queries the table against these entities and returns information.
+It searaches the table against these entities and returns information.
 
 -----------------------------------------------------------------------------*/
 
 var restify = require('restify');
 var builder = require('botbuilder');
-
-
-// Extract string (and get rid of cruft at beginning and end)
-String.prototype.getSentence = function(){
-    // Cut stuff from ends
-    var s = this.replace(/(\"([^\w]*)\")/g, "");
-    // Take out "_" that ^\w left
-    s = s.replace(/_/g, "");
-    // Take out extra " (and leave braces to make it easy to see)
-    s = s.replace(/\"/g, "");
-    return s;
-};
 
 
 //=========================================================
@@ -53,9 +41,9 @@ server.post('/api/messages', connector.listen());
 //     . (route/mangoesDB.js & thru that models/mango.js)
 //=========================================================
 
-// Access the Mangoes database
-var MangoesDB = require('./routes/mangoesDB');
-var mangoesDB = new MangoesDB();
+// Search the Mangoes Azure Table
+var MangoesSearch = require('./routes/mangoessearch');
+var mangoesSearch = new MangoesSearch();
 
 //=========================================================
 // Access LUIS Models
@@ -102,15 +90,13 @@ dialog.matches('QueryAboutMangoes', [
 //        session.send('Storage: "%s", Table: "%s", Partition: "%s"', mangoesDB.accountName, mangoesDB.tableName, mangoesDB.partitionKey);
         session.send('Query: Mango Type: "%s", Region: "%s", Characteristic:"%s"',
             query.mangotype, query.mangoregion, query.mangocharacteristic);
-        mangoesDB.queryMangoesTable(query.mangotype, query.mangoregion, query.mangocharacteristic, function (err, items) {
+        mangoesSearch.searchMangoesTable(query.mangotype, query.mangoregion, query.mangocharacteristic, function (err, items) {
             // CALLBACK ROUTIINE: chained all the way through other callbacks!!
             // For each item returned display a card
             items.forEach(function (itemElem){
                 // Display a card
-                var mtype = JSON.stringify(itemElem.NAME).getSentence();
-                var mregion = JSON.stringify(itemElem.Origin).getSentence();
-                var mchar = JSON.stringify(itemElem.Characteristics).getSentence();
-                var q_ans = "Type: " + mtype + " Region: " + mregion + " Characteristic: " + mchar;
+                // var mtype = JSON.stringify(itemElem.NAME).getSentence();
+                var q_ans = "Type: {" + itemElem.NAME + "} Region: {" + itemElem.Origin + "} Characteristic: {" + itemElem.Characteristics + "}";
                 var msg = new builder.Message(session)
                     .textFormat(builder.TextFormat.xml)
                     .attachments([
