@@ -25,6 +25,8 @@ MangoesSearch.prototype = {
 
         // Set the search string based on user query
         var searchString = null;
+        if (mregion == "where" || mregion == "state") mregion = null;
+        // Prioritize mtype, then mregion and then mchar.     
         if (mtype) {
             searchString = mtype;
         } else if (mregion) {
@@ -32,6 +34,8 @@ MangoesSearch.prototype = {
         } else if (mchar) {
             searchString = mchar;
         }
+        // Convert to wildcard search if null search
+        if (searchString == null) searchString = "*";
 
         // search the index
         self.searchClient.search(self.searchIndex, {search: searchString, $top: 5}, function itemsFound(error, items) {
